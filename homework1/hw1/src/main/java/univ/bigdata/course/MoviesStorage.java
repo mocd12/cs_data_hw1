@@ -1,8 +1,10 @@
 package univ.bigdata.course;
 
 import univ.bigdata.course.movie.Movie;
+import univ.bigdata.course.movie.MovieReview;
 import univ.bigdata.course.providers.MoviesProvider;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,20 +22,37 @@ import java.util.Map;
  * 7. K most helpful users
  */
 public class MoviesStorage implements IMoviesStorage {
-
+	
+	private LinkedList<MovieReview> Movies;
+	
     public MoviesStorage(final MoviesProvider provider) {
-        //TODO: read movies using provider interface
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+        if (provider!=null){
+        	while (provider.hasMovie()) {
+            	Movies.add(provider.getMovie());
+            }
+        }
     }
 
     @Override
     public double totalMoviesAverageScore() {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+        int size = 0, sum=0;
+    	for (MovieReview movieReview : Movies) {
+			sum+=movieReview.getMovie().getScore();
+			size++;
+		}
+    	return sum/size;
     }
 
     @Override
     public double totalMovieAverage(String productId) {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+    	int size = 0, sum=0;
+    	for (MovieReview movieReview : Movies) {
+    		if (movieReview.getMovie().getProductId() == productId) {
+    			sum+=movieReview.getMovie().getScore();
+    			size++;
+    		}
+		}
+    	return sum/size;
     }
 
     @Override
