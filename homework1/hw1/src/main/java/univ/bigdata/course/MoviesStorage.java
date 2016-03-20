@@ -4,6 +4,10 @@ import univ.bigdata.course.movie.Movie;
 import univ.bigdata.course.movie.MovieReview;
 import univ.bigdata.course.providers.MoviesProvider;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,50 +26,67 @@ import java.util.Map;
  * 7. K most helpful users
  */
 public class MoviesStorage implements IMoviesStorage {
-	private LinkedList<MovieReview> movies;
+	private LinkedList<MovieReview> movieReviews = new LinkedList<MovieReview>();
+	private HashMap<String, Movie> movies = new HashMap<String, Movie>();
+	
 	
     public MoviesStorage(final MoviesProvider provider) {
-        if (provider != null){
-        	while (provider.hasMovie()) {
-            	movies.add(provider.getMovie());
-            }
-        }
+        while (provider.hasMovie()) {
+        	MovieReview mr = provider.getMovie();
+        	movieReviews.add(mr);
+        	// Also creating a list of Movies
+        	Movie m = mr.getMovie();
+        	// Creating a map: productId --> Movie
+        	movies.put(m.getProductId(), m);	
+        }  
+        System.out.println("num of movies is: " + movies.size());
     }
 
     @Override
     public double totalMoviesAverageScore() {
-        int size = 0;
         double sum = 0.0;
-    	for (MovieReview movieReview : movies) {
-			sum += movieReview.getMovie().getScore();
-			size++;
-		}
-    	return sum / size;
+        for (Movie m : movies.values()) {
+        	sum += m.getScore();
+        }
+        return sum / movies.size();
     }
 
     @Override
     public double totalMovieAverage(String productId) {
-    	int size = 0;
-    	double sum = 0.0;
-    	for (MovieReview movieReview : movies) {
-    		if (! movieReview.getMovie().getProductId().equals(productId)) {
-    			continue;
-    		}
-    		sum += movieReview.getMovie().getScore();
-    		size++;
-    		
-		}
-    	return sum / size;
+    	// The score is already computed in the movie object
+    	return movies.get(productId).getScore();
     }
 
     @Override
     public List<Movie> getTopKMoviesAverage(long topK) {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+    	Movie sortedMovies[] = movies.values().toArray(new Movie[movies.size()]);
+    	// Sorting the array, comparing the movies by their score
+    	Arrays.sort(sortedMovies, new Comparator<Movie>() {
+			@Override
+			public int compare(Movie arg0, Movie arg1) {
+				double score0 = arg0.getScore();
+				double score1 = arg1.getScore();
+				if (score0 == score1) {
+					// according to the description, in such case we need to sort lexicographically by productId
+					return arg0.getProductId().compareTo(arg1.getProductId());
+				}				
+				return ((score0 < score1) ? -1 : 1);
+			}    		
+    	});
+    	List<Movie> topKMovies = new LinkedList<Movie>();
+    	int totalNumMovies = sortedMovies.length;
+    	for (int i = 0 ; i < topK ; i++) {
+    		topKMovies.add(sortedMovies[totalNumMovies - (int)topK + i]);
+    	}
+    	
+    	return topKMovies;    	        
     }
 
     @Override
     public Movie movieWithHighestAverage() {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+    	// Reusing already implemented method for K top movies and returning first element in the returned list
+        List<Movie> top1Movies = getTopKMoviesAverage(1);
+        return top1Movies.get(0);
     }
 
     @Override

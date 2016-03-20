@@ -8,7 +8,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
+import univ.bigdata.course.MoviesStorage;
 import univ.bigdata.course.movie.Movie;
 import univ.bigdata.course.movie.MovieReview;
 
@@ -123,9 +125,36 @@ public class FileIOMoviesProvider implements MoviesProvider {
     
     public static void main(String[] args) {
     	FileIOMoviesProvider fimp = new FileIOMoviesProvider();
-    	while(fimp.hasMovie()) {
-    		MovieReview mr = fimp.getMovie();
-    		System.out.println(mr.toString());
+    	MoviesStorage ms = new MoviesStorage(fimp);
+    	
+    	// Here starting are the sanity checks - don't make to much effort of them, it's just sanity checks
+    	
+    	System.out.println("** Sanity Check 1: **");
+    	System.out.println("total movies average score is: " + ms.totalMoviesAverageScore());
+    	
+    	System.out.println("** Sanity Check 2: **");
+    	System.out.println("total average score for movie B00004CK40 is: " + ms.totalMovieAverage("B00004CK40"));
+    	System.out.println("total average score for movie B00004CK47 is: " + ms.totalMovieAverage("B00004CK47"));
+    	System.out.println("total average score for movie B000BI1YVU is: " + ms.totalMovieAverage("B000BI1YVU"));
+    	System.out.println("total average score for movie B0002IQNAG is: " + ms.totalMovieAverage("B0002IQNAG"));
+
+    	System.out.println("** Sanity Check 3: **");
+    	System.out.println("Top 3 movies sorted by their average score and then lexicographically are:");
+    	List<Movie> topKMovies = ms.getTopKMoviesAverage(3);
+    	for (Movie m : topKMovies) {
+    		System.out.println("ProductID: " + m.getProductId() + ", Score: " + m.getScore());
     	}
+    	
+    	System.out.println("** Sanity Check 4: **");
+    	System.out.println("Movie with highest score (or with highest productId among those with highest score):");
+    	Movie m = ms.movieWithHighestAverage();
+    	System.out.println("ProductID: " + m.getProductId() + ", Score: " + m.getScore());
+    	
+    	// Please continue below with the next sanity checks for the methods you implement
+    	// Please keep the sanity check number according to the function index in the class
+    	// I.e. sanity checks 1-4 are corresponding to methods 1-4 respectively
+
+    	
+  
     }
 }
