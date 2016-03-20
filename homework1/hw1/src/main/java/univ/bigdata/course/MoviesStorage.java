@@ -22,37 +22,40 @@ import java.util.Map;
  * 7. K most helpful users
  */
 public class MoviesStorage implements IMoviesStorage {
-	
-	private LinkedList<MovieReview> Movies;
+	private LinkedList<MovieReview> movies;
 	
     public MoviesStorage(final MoviesProvider provider) {
-        if (provider!=null){
+        if (provider != null){
         	while (provider.hasMovie()) {
-            	Movies.add(provider.getMovie());
+            	movies.add(provider.getMovie());
             }
         }
     }
 
     @Override
     public double totalMoviesAverageScore() {
-        int size = 0, sum=0;
-    	for (MovieReview movieReview : Movies) {
-			sum+=movieReview.getMovie().getScore();
+        int size = 0;
+        double sum = 0.0;
+    	for (MovieReview movieReview : movies) {
+			sum += movieReview.getMovie().getScore();
 			size++;
 		}
-    	return sum/size;
+    	return sum / size;
     }
 
     @Override
     public double totalMovieAverage(String productId) {
-    	int size = 0, sum=0;
-    	for (MovieReview movieReview : Movies) {
-    		if (movieReview.getMovie().getProductId() == productId) {
-    			sum+=movieReview.getMovie().getScore();
-    			size++;
+    	int size = 0;
+    	double sum = 0.0;
+    	for (MovieReview movieReview : movies) {
+    		if (! movieReview.getMovie().getProductId().equals(productId)) {
+    			continue;
     		}
+    		sum += movieReview.getMovie().getScore();
+    		size++;
+    		
 		}
-    	return sum/size;
+    	return sum / size;
     }
 
     @Override
