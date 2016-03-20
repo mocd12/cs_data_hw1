@@ -19,8 +19,12 @@ public class FileIOMoviesProvider implements MoviesProvider {
 	BufferedReader br = null;
 	String nextString = null;
 	boolean endOfFile = false;
-	HashMap<String, Movie> movies = new HashMap<String, Movie>();
-	HashMap<String, Integer> movieReviewCounters = new HashMap<String, Integer>();
+	
+	/* Old implementation of movie scores - start*/
+	//HashMap<String, Movie> movies = new HashMap<String, Movie>();
+	//HashMap<String, Integer> movieReviewCounters = new HashMap<String, Integer>();
+	/* Old implementation of movie scores - end*/
+	
 	HashMap<String, String> fileKeysNextKey = null;
 	
 	private class Titles {
@@ -104,16 +108,22 @@ public class FileIOMoviesProvider implements MoviesProvider {
         String summary = getFieldValueFromLine(nextString, Titles.SUMMARY);
         String reviewText = getFieldValueFromLine(nextString, Titles.TEXT);
         
-        if (! movies.containsKey(productId)) {
-        	movies.put(productId, new Movie(productId, 0));
-        	movieReviewCounters.put(productId, 0);
-        }
-        Movie movieObj = movies.get(productId);
-        int lastNumReviews = movieReviewCounters.get(productId);
-        movieObj.setScore((movieObj.getScore() * lastNumReviews + score) / (lastNumReviews + 1));
-        movieReviewCounters.put(productId, lastNumReviews + 1);
+        /* Old implementation of movie scores - start*/
+      //  if (! movies.containsKey(productId)) {
+       // 	movies.put(productId, new Movie(productId, 0));
+       // 	movieReviewCounters.put(productId, 0);
+        //}
+        //Movie movieObj = movies.get(productId);
+        
+       // int lastNumReviews = movieReviewCounters.get(productId);
+       // movieObj.setScore((movieObj.getScore() * lastNumReviews + score) / (lastNumReviews + 1));
+       // movieReviewCounters.put(productId, lastNumReviews + 1);
+        /* Old implementation of movie scores - end*/
+        Movie movie = new Movie();
+        movie.setProductId(productId);
+        movie.setScore(score);
         mr.setHelpfulness(helpfulness);
-        mr.setMovie(movieObj);
+        mr.setMovie(movie);
         mr.setProfileName(profileName);
         mr.setTimestamp(new Date(time * 1000));
         mr.setUserId(userId);

@@ -27,39 +27,67 @@ import java.util.Map;
  */
 public class MoviesStorage implements IMoviesStorage {
 	private LinkedList<MovieReview> movieReviews = new LinkedList<MovieReview>();
-	private HashMap<String, Movie> movies = new HashMap<String, Movie>();
 	
+	// Old implementation - start
+	//private HashMap<String, Movie> movies = new HashMap<String, Movie>();
+	// Old imlementation - end
 	
     public MoviesStorage(final MoviesProvider provider) {
         while (provider.hasMovie()) {
         	MovieReview mr = provider.getMovie();
         	movieReviews.add(mr);
+        	
+        	// old implementation - start
         	// Also creating a list of Movies
-        	Movie m = mr.getMovie();
+        	//Movie m = mr.getMovie();
         	// Creating a map: productId --> Movie
-        	movies.put(m.getProductId(), m);	
+        	//movies.put(m.getProductId(), m);
+        	// old implementation = end
         }  
-        System.out.println("num of movies is: " + movies.size());
     }
 
     @Override
     public double totalMoviesAverageScore() {
+    	// Note: I guess it should be the average of all the reviews - as implemented here
+    	// and not the average of all the averages of all the movies
         double sum = 0.0;
-        for (Movie m : movies.values()) {
-        	sum += m.getScore();
+        for (MovieReview mr : movieReviews) {
+        	sum += mr.getMovie().getScore();
         }
-        return sum / movies.size();
+        return sum / movieReviews.size();
     }
 
     @Override
     public double totalMovieAverage(String productId) {
-    	// The score is already computed in the movie object
-    	return movies.get(productId).getScore();
+    	double sum = 0.0;
+    	int numRelevant = 0;
+        for (MovieReview mr : movieReviews) {
+        	if (mr.getMovie().getProductId().equals(productId)) {
+        		sum += mr.getMovie().getScore();
+        		numRelevant++;
+        	}
+        }
+        return sum / numRelevant;
+    }
+    
+    // Utility function
+    private String[] getAllMovieProductIds() {
+    	HashSet<String> uniqueProductIds = new HashSet<String>();
+    	for (MovieReview mr : movieReviews) {
+    		uniqueProductIds.add(mr.getMovie().getProductId());
+    	}
+    	
+    	return uniqueProductIds.toArray(new String[uniqueProductIds.size()]);
     }
 
     @Override
     public List<Movie> getTopKMoviesAverage(long topK) {
-    	Movie sortedMovies[] = movies.values().toArray(new Movie[movies.size()]);
+    	String[] allMovieProductIds = getAllMovieProductIds();    	
+    	Movie sortedMovies[] = new Movie[allMovieProductIds.length];
+    	for (int i = 0 ; i < allMovieProductIds.length ; i++) {
+    		String movieProductId = allMovieProductIds[i];
+    		sortedMovies[i] = new Movie(movieProductId, totalMovieAverage(movieProductId));
+    	}
     	// Sorting the array, comparing the movies by their score
     	Arrays.sort(sortedMovies, new Comparator<Movie>() {
 			@Override
