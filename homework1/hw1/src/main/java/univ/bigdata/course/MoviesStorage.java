@@ -124,7 +124,26 @@ public class MoviesStorage implements IMoviesStorage {
 
     @Override
     public String mostReviewedProduct() {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+    	HashMap<String,Integer> reviewsPerMovie = new HashMap<String,Integer>();
+    	for (MovieReview mr : movieReviews) {
+    		String pid = mr.getMovie().getProductId();
+        	if (reviewsPerMovie.containsKey(pid) == false) {
+        		reviewsPerMovie.put(pid, 0);
+        	}
+        	reviewsPerMovie.put(pid,reviewsPerMovie.get(pid)+1);
+        }
+    	
+    	String mostReviewed = null;
+    	int max = 0;
+    	for (String id : reviewsPerMovie.keySet())
+    	{
+    		int currentValue=reviewsPerMovie.get(id);
+    		if (currentValue>max) {
+    			max=currentValue;
+    			mostReviewed=id;
+    		}
+    	}
+    	return mostReviewed;
     }
 
     @Override
