@@ -5,12 +5,16 @@ import univ.bigdata.course.movie.MovieReview;
 import univ.bigdata.course.providers.MoviesProvider;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Main class which capable to keep all information regarding movies review.
@@ -158,7 +162,29 @@ public class MoviesStorage implements IMoviesStorage {
 
     @Override
     public Map<String, Long> moviesReviewWordsCount(int topK) {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+    	Map<String, Long> wordsCountMap = new TreeMap<String, Long> ();
+    	for (MovieReview mr : movieReviews) {
+    		String review = mr.getReview();
+    		String[] splitted = review.split("\\s+");
+    		for (String word : splitted) {
+    			if (wordsCountMap.containsKey(word) == false) {
+    				wordsCountMap.put(word, (long)0);
+            	}
+    			wordsCountMap.put(word,wordsCountMap.get(word)+1);
+    		}
+    	}
+    	
+    	wordsCountMap = sortByComparator(wordsCountMap);
+    	Iterator<Map.Entry<String, Long>> it = wordsCountMap.entrySet().iterator();
+    	int i=0;
+    	while(it.hasNext()) {
+    	    i++;
+    		it.next();
+    	    if (i>topK) {
+    	    	it.remove();
+    	    }
+    	}
+    	return wordsCountMap;
     }
 
     @Override
@@ -175,4 +201,28 @@ public class MoviesStorage implements IMoviesStorage {
     public long moviesCount() {
         throw new UnsupportedOperationException("You have to implement this method on your own.");
     }
+    
+    
+    private static Map<String, Long> sortByComparator(Map<String, Long> unsortMap) {
+
+		// Convert Map to List
+		List<Map.Entry<String, Long>> list = 
+			new LinkedList<Map.Entry<String, Long>>(unsortMap.entrySet());
+
+		// Sort list with comparator, to compare the Map values
+		Collections.sort(list, new Comparator<Map.Entry<String, Long>>() {
+			public int compare(Map.Entry<String, Long> o1,
+                                           Map.Entry<String, Long> o2) {
+				return (o2.getValue()).compareTo(o1.getValue());
+			}
+		});
+
+		// Convert sorted map back to a Map
+		Map<String, Long> sortedMap = new LinkedHashMap<String, Long>();
+		for (Iterator<Map.Entry<String, Long>> it = list.iterator(); it.hasNext();) {
+			Map.Entry<String, Long> entry = it.next();
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+		return sortedMap;
+	}
 }

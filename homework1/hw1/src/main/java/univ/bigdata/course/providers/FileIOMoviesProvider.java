@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import univ.bigdata.course.MoviesStorage;
 import univ.bigdata.course.movie.Movie;
@@ -92,9 +92,6 @@ public class FileIOMoviesProvider implements MoviesProvider {
     	return (nextString != null);
     }
     
-    private String getFieldValueFromString(String fieldStr) {
-    	return (fieldStr.split(": "))[1].trim();
-    }
     @Override
     public MovieReview getMovie() {
         MovieReview mr = new MovieReview();
@@ -160,6 +157,18 @@ public class FileIOMoviesProvider implements MoviesProvider {
     	Movie m = ms.movieWithHighestAverage();
     	System.out.println("ProductID: " + m.getProductId() + ", Score: " + m.getScore());
     	
+    	
+    	System.out.println("** Sanity Check 6: **");
+    	String s = ms.mostReviewedProduct();
+    	System.out.println("Most reviewed product is: " + s);
+    	
+    	System.out.println("** Sanity Check 9: **");
+    	Integer topK= 3;
+    	System.out.println("Top" + topK.toString() + "movies reviews words count: ");
+    	Map<String, Long> map = ms.moviesReviewWordsCount(topK);
+    	for (Map.Entry<String, Long> entry : map.entrySet()) {
+    	    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+    	}
     	// Please continue below with the next sanity checks for the methods you implement
     	// Please keep the sanity check number according to the function index in the class
     	// I.e. sanity checks 1-4 are corresponding to methods 1-4 respectively
