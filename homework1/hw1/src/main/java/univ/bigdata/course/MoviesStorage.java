@@ -161,10 +161,11 @@ public class MoviesStorage implements IMoviesStorage {
         	}
         	ReviewCount.put(pid,ReviewCount.get(pid)+1);
         }
-    	//sorting the map
+    	//put the K top reviewed movies in a map
     	Map<String,Long> TopKReview = new HashMap<String,Long>();
     	for(int i=0;i<topK; i++ )
     	{
+    		//find the most reviewed movie in the map
 	    	String reviewed=null;
 	    	long max=0;
 	    	for (String id : ReviewCount.keySet()){
@@ -178,8 +179,9 @@ public class MoviesStorage implements IMoviesStorage {
 	    	ReviewCount.remove(reviewed, max);
 	    	TopKReview.put(reviewed, max);
 	    	}
+    	//sorting the map
     	return sortByComparator(TopKReview);  
-    	}
+    }
 
     @Override
     public String mostPopularMovieReviewedByKUsers(int numOfUsers) {
@@ -226,14 +228,16 @@ public class MoviesStorage implements IMoviesStorage {
     @Override
     public long moviesCount() {
     	LinkedList<String> MovieNum = new LinkedList<String>();
+    	//create a list of the movies 
     	for (MovieReview mr : movieReviews) {
     		String pid = mr.getMovie().getProductId();
         	if (MovieNum.contains(pid) == false) {
         		MovieNum.add(pid);
         	}
         }
+    	//return the size of the list
     	return MovieNum.size();
-    	}
+    }
     
     
     private static Map<String, Long> sortByComparator(Map<String, Long> unsortMap) {
