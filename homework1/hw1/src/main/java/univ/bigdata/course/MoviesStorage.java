@@ -225,8 +225,15 @@ public class MoviesStorage implements IMoviesStorage {
 
     @Override
     public long moviesCount() {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
-    }
+    	LinkedList<String> MovieNum = new LinkedList<String>();
+    	for (MovieReview mr : movieReviews) {
+    		String pid = mr.getMovie().getProductId();
+        	if (MovieNum.contains(pid) == false) {
+        		MovieNum.add(pid);
+        	}
+        }
+    	return MovieNum.size();
+    	}
     
     
     private static Map<String, Long> sortByComparator(Map<String, Long> unsortMap) {
