@@ -162,6 +162,14 @@ public class FileIOMoviesProvider implements MoviesProvider {
     	String s = ms.mostReviewedProduct();
     	System.out.println("Most reviewed product is: " + s);
     	
+    	System.out.println("** Sanity Check 7: **");
+    	Integer tK= 4;
+    	System.out.println("Top" + tK.toString() + "per movies review: ");
+    	Map<String, Long> mapM = ms.reviewCountPerMovieTopKMovies(tK);
+    	for (Map.Entry<String, Long> entry : mapM.entrySet()) {
+    	    System.out.println("Movie product id = [" + entry.getKey() + "], reviews count [" + entry.getValue()+ "]");
+    	}
+    	
     	System.out.println("** Sanity Check 9: **");
     	Integer topK= 3;
     	System.out.println("Top" + topK.toString() + "movies reviews words count: ");

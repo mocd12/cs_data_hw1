@@ -152,8 +152,34 @@ public class MoviesStorage implements IMoviesStorage {
 
     @Override
     public Map<String, Long> reviewCountPerMovieTopKMovies(int topK) {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
-    }
+    	//create a map of id and number of reviews per movie
+    	Map<String,Long> ReviewCount = new HashMap<String,Long>();
+    	for (MovieReview mr : movieReviews) {
+    		String pid = mr.getMovie().getProductId();
+        	if (ReviewCount.containsKey(pid) == false) {
+        		ReviewCount.put(pid, (long) 0);
+        	}
+        	ReviewCount.put(pid,ReviewCount.get(pid)+1);
+        }
+    	//sorting the map
+    	Map<String,Long> TopKReview = new HashMap<String,Long>();
+    	for(int i=0;i<topK; i++ )
+    	{
+	    	String reviewed=null;
+	    	long max=0;
+	    	for (String id : ReviewCount.keySet()){
+	    		long count=ReviewCount.get(id);
+	    		if (count>max) {
+	    			max=count;
+	    			reviewed=id;
+	    		} 
+	
+	    	}
+	    	ReviewCount.remove(reviewed, max);
+	    	TopKReview.put(reviewed, max);
+	    	}
+    	return sortByComparator(TopKReview);  
+    	}
 
     @Override
     public String mostPopularMovieReviewedByKUsers(int numOfUsers) {
