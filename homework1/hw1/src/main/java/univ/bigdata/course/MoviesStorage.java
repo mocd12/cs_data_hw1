@@ -302,7 +302,22 @@ String mostPM ="There is no such movie";
 				return 1;
 			}    		
     	});
-    	Map<String, Long> topWordsCount = new HashMap<String, Long>();
+    	Map<String, Long> topWordsCount = new TreeMap<String, Long>(new Comparator<String>() {
+
+			@Override
+			public int compare(String arg0, String arg1) {
+				long wc0 = wordsCount.get(arg0);
+				long wc1 = wordsCount.get(arg1);
+				if (wc0 == wc1) {
+					return arg0.compareTo(arg1);
+				}
+				if (wc0 > wc1) {
+					return -1;
+				}
+				return 1;
+			}
+    		
+    	});
     	for (int i = sortedWords.length - topWords ; i < sortedWords.length ; i++) {
     		topWordsCount.put(sortedWords[i], wordsCount.get(sortedWords[i]));
     	}

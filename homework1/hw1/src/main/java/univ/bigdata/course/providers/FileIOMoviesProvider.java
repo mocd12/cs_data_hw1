@@ -189,7 +189,7 @@ public class FileIOMoviesProvider implements MoviesProvider {
     	
     	System.out.println("** Sanity Check 10: **");
     	System.out.println("Top 10 words in top 2 movies reviews words count: ");
-    	Map<String, Long> topWordsTopMoviesMap = ms.topYMoviewsReviewTopXWordsCount(2, 10);
+    	Map<String, Long> topWordsTopMoviesMap = ms.topYMoviewsReviewTopXWordsCount(2, 200);
     	for (String word : topWordsTopMoviesMap.keySet()) {
     	    System.out.println("Key = " + word + ", Value = " + topWordsTopMoviesMap.get(word));
     	}
