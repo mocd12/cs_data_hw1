@@ -169,6 +169,9 @@ public class FileIOMoviesProvider implements MoviesProvider {
     	for (Map.Entry<String, Long> entry : mapM.entrySet()) {
     	    System.out.println("Movie product id = [" + entry.getKey() + "], reviews count [" + entry.getValue()+ "].");
     	}
+    	System.out.println("** Sanity Check 8: **");
+    	System.out.println("mostPopularMovieReviewedByKUsers k=20 "+ms.mostPopularMovieReviewedByKUsers(20).toString());
+    	System.out.println("mostPopularMovieReviewedByKUsers k=10 "+ms.mostPopularMovieReviewedByKUsers(10).toString());
     	
     	System.out.println("** Sanity Check 9: **");
     	Integer topK= 3;
@@ -178,9 +181,18 @@ public class FileIOMoviesProvider implements MoviesProvider {
     	    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
     	}
     	
+    	System.out.println("** Sanity Check 11: **");
+    	System.out.println("topKHelpfullUsers k=10"+ms.topKHelpfullUsers(10).toString());
+    	System.out.println("****");
+    	System.out.println("topKHelpfullUsers k=78"+ms.topKHelpfullUsers(78).toString());
+    	System.out.println("****");
+    	System.out.println("topKHelpfullUsers k=100"+ms.topKHelpfullUsers(100).toString());
+    	
     	System.out.println("** Sanity Check 12: **");
     	long C=ms.moviesCount();
     	System.out.println("Total number of distinct movies reviewed ["+C+"].");
+    	
+    	
     	// Please continue below with the next sanity checks for the methods you implement
     	// Please keep the sanity check number according to the function index in the class
     	// I.e. sanity checks 1-4 are corresponding to methods 1-4 respectively

@@ -185,7 +185,35 @@ public class MoviesStorage implements IMoviesStorage {
 
     @Override
     public String mostPopularMovieReviewedByKUsers(int numOfUsers) {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+String mostPM ="There is no such movie";
+    	
+    	Map<String,Integer> reviewsPerMovie = new HashMap<String,Integer>();
+    	Map<String,Integer> reviewsPerMovieBnum = new HashMap<String,Integer>();
+    	
+    	for (MovieReview mr : movieReviews) {
+    		String pid = mr.getMovie().getProductId();
+        	if (reviewsPerMovie.containsKey(pid) == false) {
+        		reviewsPerMovie.put(pid, 0);
+        	}
+        	reviewsPerMovie.put(pid,reviewsPerMovie.get(pid)+1);
+        }
+    	
+    	for(String currentKey : reviewsPerMovie.keySet()){
+    		if(reviewsPerMovie.get(currentKey)>=numOfUsers)
+    		{reviewsPerMovieBnum.put(currentKey,reviewsPerMovie.get(currentKey));}
+    	}
+    	
+    	double maxscore=0.0;
+    	
+    	for (MovieReview mr : movieReviews) {
+    		if(reviewsPerMovieBnum.containsKey(mr.getMovie().getProductId())){
+    		 if(totalMovieAverage(mr.getMovie().getProductId())>maxscore){
+    			maxscore=mr.getMovie().getScore();
+    			mostPM=mr.getMovie().getProductId();
+    			}
+    		}
+    	}
+    	return mostPM;
     }
 
     @Override
@@ -222,7 +250,60 @@ public class MoviesStorage implements IMoviesStorage {
 
     @Override
     public Map<String, Double> topKHelpfullUsers(int k) {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+    	LinkedList<MovieReview> tempx =new LinkedList<MovieReview>(movieReviews);
+    	Map<String, Double> re=new HashMap<String, Double>();
+        Map<String, Double> topk=new HashMap<String, Double>();
+    	
+    while(!tempx.isEmpty()){
+    	String name=tempx.getFirst().getUserId();
+    	
+    	if(!re.containsKey(name))
+    	{
+    		re.put(name, 0.0);
+    	}
+    	tempx.removeFirst();
+    	}
+    
+    for(String Nuser:re.keySet()){
+    	Double a=0.0;
+    	Double b=0.0;
+    	Double v=0.0;
+    	String[] tm;
+    	for(MovieReview mr : movieReviews){
+    		if(mr.getUserId().equals(Nuser)){
+    			tm=mr.getHelpfulness().split("/");
+    			a+=Integer.parseInt(tm[0]);
+    			b+=Integer.parseInt(tm[1]);		
+    		}
+    	}
+    	if(a==0||b==0){
+			v=0.0;
+		}else{
+		v=a/b;}
+		
+		re.put(Nuser, v);
+    }
+    if(k>=re.size()){
+    	k=re.size();}
+    
+    re=sortD(re);
+    
+    	for(int i=0;i<k;i++){
+    		Double max=-1.0;
+    		String idmax="";
+    		for(String s:re.keySet()){
+    			if(re.get(s)>max){
+    				max=re.get(s);
+    				idmax=s;
+    			}
+    		}
+    		topk.put(idmax, re.get(idmax));
+    		
+    		re.remove(idmax);
+    	}
+    	
+    
+    	return sortD(topk);
     }
 
     @Override
@@ -262,4 +343,47 @@ public class MoviesStorage implements IMoviesStorage {
 		}
 		return sortedMap;
 	}
+
+
+
+
+private static Map<String, Double> sortD(Map<String, Double> origMap) {
+
+
+Map<Double, LinkedList<String>> reverseMap = new HashMap<Double, LinkedList<String>>() ;
+Map<String, Double> retmap = new LinkedHashMap<String, Double>() ;
+
+for (String key : origMap.keySet()) {
+   double val = origMap.get(key);
+   if (! reverseMap.containsKey(val)) {
+        reverseMap.put(val, new LinkedList<String>()) ;
+
+    } 
+    reverseMap.get(val).add(key);
+} 
+
+Double[] vals = reverseMap.keySet().toArray(new Double[reverseMap.size()]);
+
+
+Arrays.sort(vals, Collections.reverseOrder());
+
+for (Double val : vals) {
+	
+	
+    LinkedList<String> keys = reverseMap.get(val);
+    
+    
+    Collections.sort(keys, new Comparator<String>(){
+        @Override
+            public int compare(String o1,String o2){
+                return o1.compareTo(o2);
+            }
+        });
+    
+    for (String key : keys)  {
+        retmap.put(key, val);
+    } 
+}
+return retmap;
+}
 }
