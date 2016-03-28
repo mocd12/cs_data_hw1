@@ -123,7 +123,31 @@ public class MoviesStorage implements IMoviesStorage {
 
     @Override
     public List<Movie> getMoviesPercentile(double percentile) {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+    	String[] allMovieProductIds = getAllMovieProductIds();    	
+    	Movie sortedMovies[] = new Movie[allMovieProductIds.length];
+    	for (int i = 0 ; i < allMovieProductIds.length ; i++) {
+    		String movieProductId = allMovieProductIds[i];
+    		sortedMovies[i] = new Movie(movieProductId, totalMovieAverage(movieProductId));
+    	}
+    	// Sorting the array, comparing the movies by their score
+    	Arrays.sort(sortedMovies, new Comparator<Movie>() {
+			@Override
+			public int compare(Movie arg0, Movie arg1) {
+				double score0 = arg0.getScore();
+				double score1 = arg1.getScore();
+				if (score0 == score1) {
+					// according to the description, in such case we need to sort lexicographically by productId
+					return arg0.getProductId().compareTo(arg1.getProductId());
+				}				
+				return ((score0 < score1) ? -1 : 1);
+			}    		
+    	});
+    	// Floor is good. Example: 10 movies, 0.35 percentile - starting from index 3
+    	// Starting from index 3 means we "leave behind" 0.3 of the movies and less than 0.4 of the movies
+    	int startFrom = (int)(sortedMovies.length * percentile);
+    	Movie[] outputMovies = Arrays.copyOfRange(sortedMovies, startFrom, sortedMovies.length);
+    	
+    	return Arrays.asList(outputMovies);    	
     }
 
     @Override

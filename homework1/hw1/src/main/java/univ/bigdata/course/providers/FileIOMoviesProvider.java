@@ -157,6 +157,12 @@ public class FileIOMoviesProvider implements MoviesProvider {
     	Movie m = ms.movieWithHighestAverage();
     	System.out.println("ProductID: " + m.getProductId() + ", Score: " + m.getScore());
     	
+    	System.out.println("** Sanity Check 5: **");
+    	System.out.println("Movies above percentile 0.7:");
+    	List<Movie> percMovies = ms.getMoviesPercentile(0.7);
+    	for (Movie m1 : percMovies) {
+    		System.out.println("ProductID: " + m1.getProductId() + ", Score: " + m1.getScore());
+    	}    	
     	
     	System.out.println("** Sanity Check 6: **");
     	String s = ms.mostReviewedProduct();
