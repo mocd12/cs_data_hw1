@@ -266,10 +266,48 @@ String mostPM ="There is no such movie";
     	}
     	return wordsCountMap;
     }
+    
 
     @Override
     public Map<String, Long> topYMoviewsReviewTopXWordsCount(int topMovies, int topWords) {
-        throw new UnsupportedOperationException("You have to implement this method on your own.");
+    	Map<String, Long> mostReviewedKMovies = reviewCountPerMovieTopKMovies(topMovies);
+    	// If found out that it's top Y best reviewed , and not top Y most reviewed - use the below commented out list
+    	//List<Movie> topYMovies = getTopKMoviesAverage(topMovies);
+    	Map<String, Long> wordsCount = new HashMap<String, Long>(); 
+    	for (MovieReview mr : movieReviews) {
+    		if (! mostReviewedKMovies.containsKey(mr.getMovie().getProductId())) {
+    			// We don't care about reviews which are not of the K most reviewed movies
+    			continue;
+    		}
+    		String[] words = mr.getReview().split("\\s+");
+    		for (String word : words) {
+    			if (! wordsCount.containsKey(word)) {
+    				wordsCount.put(word, (long) 0);
+    			}
+    			wordsCount.put(word, wordsCount.get(word) + 1);
+    		}
+    	}
+    	String[] sortedWords = wordsCount.keySet().toArray(new String[wordsCount.size()]);
+    	Arrays.sort(sortedWords, new Comparator<String>() {
+			@Override
+			public int compare(String arg0, String arg1) {
+				long wc0 = wordsCount.get(arg0);
+				long wc1 = wordsCount.get(arg1);
+				if (wc0 == wc1) {
+					return arg0.compareTo(arg1);
+				}
+				if (wc0 < wc1) {
+					return -1;
+				}
+				return 1;
+			}    		
+    	});
+    	Map<String, Long> topWordsCount = new HashMap<String, Long>();
+    	for (int i = sortedWords.length - topWords ; i < sortedWords.length ; i++) {
+    		topWordsCount.put(sortedWords[i], wordsCount.get(sortedWords[i]));
+    	}
+    	
+    	return topWordsCount;
     }
 
     @Override

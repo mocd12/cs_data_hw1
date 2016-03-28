@@ -187,6 +187,13 @@ public class FileIOMoviesProvider implements MoviesProvider {
     	    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
     	}
     	
+    	System.out.println("** Sanity Check 10: **");
+    	System.out.println("Top 10 words in top 2 movies reviews words count: ");
+    	Map<String, Long> topWordsTopMoviesMap = ms.topYMoviewsReviewTopXWordsCount(2, 10);
+    	for (String word : topWordsTopMoviesMap.keySet()) {
+    	    System.out.println("Key = " + word + ", Value = " + topWordsTopMoviesMap.get(word));
+    	}
+    	
     	System.out.println("** Sanity Check 11: **");
     	System.out.println("topKHelpfullUsers k=10"+ms.topKHelpfullUsers(10).toString());
     	System.out.println("****");
