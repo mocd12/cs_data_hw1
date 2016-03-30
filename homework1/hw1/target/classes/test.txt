@@ -1,17 +1,17 @@
 Getting list of total movies average.
 
 TOP2.
-Movie{productId='B0002IQNAG', score=4.617021276595745}
-Movie{productId='B00004CK40', score=4.636363636363637}
+Movie{productId='B00004CK40', score=4.63636}
+Movie{productId='B0002IQNAG', score=4.61702}
 
 TOP4.
-Movie{productId='B00004CK47', score=3.423076923076923}
+Movie{productId='B00004CK40', score=4.63636}
+Movie{productId='B0002IQNAG', score=4.61702}
 Movie{productId='B000BI1YVU', score=4.125}
-Movie{productId='B0002IQNAG', score=4.617021276595745}
-Movie{productId='B00004CK40', score=4.636363636363637}
+Movie{productId='B00004CK47', score=3.42308}
 Total average: 4.23
 
-The movie with highest average:  Movie{productId='B00004CK40', score=4.636363636363637}
+The movie with highest average:  Movie{productId='B00004CK40', score=4.63636}
 
 Movie product id = [B0002IQNAG], reviews count [47].
 Movie product id = [B00004CK47], reviews count [26].
@@ -21,11 +21,11 @@ Movie product id = [B00004CK40], reviews count [11].
 The most reviewed movie product id is B0002IQNAG
 
 Computing 90th percentile of all movies average.
-Movie{productId='B00004CK40', score=4.636363636363637}
+Movie{productId='B00004CK40', score=4.63636}
 
 Computing 50th percentile of all movies average.
-Movie{productId='B0002IQNAG', score=4.617021276595745}
-Movie{productId='B00004CK40', score=4.636363636363637}
+Movie{productId='B00004CK40', score=4.63636}
+Movie{productId='B0002IQNAG', score=4.61702}
 
 Computing TOP100 words count
 Word = [the], number of occurrences [1167].
@@ -33,6 +33,7 @@ Word = [of], number of occurrences [638].
 Word = [a], number of occurrences [584].
 Word = [and], number of occurrences [538].
 Word = [to], number of occurrences [419].
+Word = [], number of occurrences [394].
 Word = [is], number of occurrences [368].
 Word = [in], number of occurrences [312].
 Word = [this], number of occurrences [256].
@@ -127,7 +128,6 @@ Word = [any], number of occurrences [29].
 Word = [love], number of occurrences [29].
 Word = [original], number of occurrences [29].
 Word = [which], number of occurrences [29].
-Word = [way], number of occurrences [28].
 
 Computing TOP100 words count for TOP100 movies
 Word = [the], number of occurrences [1167].
@@ -135,6 +135,7 @@ Word = [of], number of occurrences [638].
 Word = [a], number of occurrences [584].
 Word = [and], number of occurrences [538].
 Word = [to], number of occurrences [419].
+Word = [], number of occurrences [394].
 Word = [is], number of occurrences [368].
 Word = [in], number of occurrences [312].
 Word = [this], number of occurrences [256].
@@ -229,18 +230,17 @@ Word = [any], number of occurrences [29].
 Word = [love], number of occurrences [29].
 Word = [original], number of occurrences [29].
 Word = [which], number of occurrences [29].
-Word = [way], number of occurrences [28].
 Computing TOP100 words count for TOP10 movies
 Word = [the], number of occurrences [1167].
 Word = [of], number of occurrences [638].
 Word = [a], number of occurrences [584].
 Word = [and], number of occurrences [538].
 Word = [to], number of occurrences [419].
+Word = [], number of occurrences [394].
 Word = [is], number of occurrences [368].
 Word = [in], number of occurrences [312].
 Word = [this], number of occurrences [256].
 Word = [I], number of occurrences [206].
-Word = [that], number of occurrences [197].
 
 Most popular movie with highest average score, reviewed by at least 20 users B0002IQNAG
 Most popular movie with highest average score, reviewed by at least 15 users B000BI1YVU
