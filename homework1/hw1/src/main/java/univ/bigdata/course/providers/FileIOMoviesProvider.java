@@ -19,6 +19,7 @@ public class FileIOMoviesProvider implements MoviesProvider {
 	BufferedReader br = null;
 	String nextString = null;
 	boolean endOfFile = false;
+	String inputFileName = null;
 	
 	/* Old implementation of movie scores - start*/
 	//HashMap<String, Movie> movies = new HashMap<String, Movie>();
@@ -38,6 +39,9 @@ public class FileIOMoviesProvider implements MoviesProvider {
 		static final String TEXT = "\treview/text: ";
 	}
 	
+	public FileIOMoviesProvider(String fileName) {
+		inputFileName = fileName;
+	}
 	
 	private void lazyKeysMapSetter() {
 		fileKeysNextKey = new HashMap<String, String>();
@@ -67,9 +71,10 @@ public class FileIOMoviesProvider implements MoviesProvider {
 		}
 		lazyKeysMapSetter();
 		FileReader fr = null;
-		URL fileUrl = this.getClass().getResource("/movies-sample.txt");
+		//URL fileUrl = this.getClass().getResource("/movies-sample.txt");
 		try {
-			fr = new FileReader(fileUrl.getFile());
+			//fr = new FileReader(fileUrl.getFile());
+			fr = new FileReader(inputFileName);
 		} catch (FileNotFoundException e) {
 			throw new Exception("File not found: " + e.getMessage());
 		}
@@ -131,7 +136,7 @@ public class FileIOMoviesProvider implements MoviesProvider {
     }
     
     public static void main(String[] args) {
-    	FileIOMoviesProvider fimp = new FileIOMoviesProvider();
+    	FileIOMoviesProvider fimp = new FileIOMoviesProvider("C:\\Users\\Omri\\git\\cs_data_hw1\\homework1\\hw1\\src\\main\\resources\\movies-sample.txt");
     	MoviesStorage ms = new MoviesStorage(fimp);
     	
     	// Here starting are the sanity checks - don't make to much effort of them, it's just sanity checks

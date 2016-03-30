@@ -3,6 +3,7 @@ package univ.bigdata.course;
 import univ.bigdata.course.providers.FileIOMoviesProvider;
 import univ.bigdata.course.providers.MoviesProvider;
 
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 public class MoviesReviewsQueryRunner {
@@ -12,9 +13,10 @@ public class MoviesReviewsQueryRunner {
         //TODO: Here you need to add the part of reading input parameters
         // opening stream for writing the output and validating.
 
-        final PrintStream printer = null;
+        
         try{
-            final MoviesProvider provider = new FileIOMoviesProvider();
+        	final PrintStream printer = new PrintStream(new FileOutputStream(args[1]));
+            final MoviesProvider provider = new FileIOMoviesProvider(args[0]);
             final IMoviesStorage storage = new MoviesStorage(provider);
 
             printer.println("Getting list of total movies average.");

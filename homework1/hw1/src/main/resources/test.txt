@@ -1,0 +1,23 @@
+Getting list of total movies average.
+
+TOP2.
+Movie{productId='B0002IQNAG', score=4.617021276595745}
+Movie{productId='B00004CK40', score=4.636363636363637}
+
+TOP4.
+Movie{productId='B00004CK47', score=3.423076923076923}
+Movie{productId='B000BI1YVU', score=4.125}
+Movie{productId='B0002IQNAG', score=4.617021276595745}
+Movie{productId='B00004CK40', score=4.636363636363637}
+Total average: 4.23
+
+The movie with highest average:  Movie{productId='B00004CK40', score=4.636363636363637}
+
+Movie product id = [B0002IQNAG], reviews count [47].
+Movie product id = [B00004CK47], reviews count [26].
+Movie product id = [B000BI1YVU], reviews count [16].
+Movie product id = [B00004CK40], reviews count [11].
+
+The most reviewed movie product id is B0002IQNAG
+
+Computing 90th percentile of all movies average.
