@@ -353,12 +353,17 @@ String mostPM ="There is no such movie";
     			b+=Integer.parseInt(tm[1]);		
     		}
     	}
-    	if(a==0||b==0){
+    	
+    	if(a==0){
 			v=0.0;
 		}else{
 		v=a/b;}
+    	if(b==0){
+    		v=-5.0;
+    	}
 		
 		re.put(Nuser, v);
+    	
     }
     if(k>=re.size()){
     	k=re.size();}
@@ -374,9 +379,11 @@ String mostPM ="There is no such movie";
     				idmax=s;
     			}
     		}
+    		if(idmax!=""){
     		topk.put(idmax, re.get(idmax));
     		
     		re.remove(idmax);
+    		}
     	}
     	
     
