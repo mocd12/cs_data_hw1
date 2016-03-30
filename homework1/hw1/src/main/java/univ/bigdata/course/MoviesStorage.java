@@ -219,14 +219,13 @@ public class MoviesStorage implements IMoviesStorage {
 
 	@Override
 	public String mostPopularMovieReviewedByKUsers(int numOfUsers) {
-		String mostPM = "There is no such movie";
 
 		Map<String, Integer> reviewsPerMovie = new HashMap<String, Integer>();
 		Map<String, Integer> reviewsPerMovieBnum = new HashMap<String, Integer>();
 
 		for (MovieReview mr : movieReviews) {
 			String pid = mr.getMovie().getProductId();
-			if (reviewsPerMovie.containsKey(pid) == false) {
+			if (! reviewsPerMovie.containsKey(pid)) {
 				reviewsPerMovie.put(pid, 0);
 			}
 			reviewsPerMovie.put(pid, reviewsPerMovie.get(pid) + 1);
@@ -239,16 +238,26 @@ public class MoviesStorage implements IMoviesStorage {
 		}
 
 		double maxscore = 0.0;
-
-		for (MovieReview mr : movieReviews) {
-			if (reviewsPerMovieBnum.containsKey(mr.getMovie().getProductId())) {
-				if (totalMovieAverage(mr.getMovie().getProductId()) > maxscore) {
-					maxscore = mr.getMovie().getScore();
-					mostPM = mr.getMovie().getProductId();
+		String winningPid = null;
+		for (String pid : reviewsPerMovieBnum.keySet()) {
+			double movieAvgScore = this.totalMovieAverage(pid);
+			if (winningPid == null) {
+				winningPid = pid;
+				maxscore = movieAvgScore;
+				continue;
+			}
+			if (movieAvgScore == maxscore) {
+				if (pid.compareTo(winningPid) < 0) {
+					// in case of same score, taking the one with smaller lexicographic name
+					winningPid = pid;
 				}
+			} else if (movieAvgScore > maxscore) {
+				winningPid = pid;
+				maxscore = movieAvgScore;
 			}
 		}
-		return mostPM;
+		
+		return winningPid;
 	}
 
 	@Override

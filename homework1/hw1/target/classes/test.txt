@@ -243,7 +243,7 @@ Word = [this], number of occurrences [256].
 Word = [I], number of occurrences [206].
 
 Most popular movie with highest average score, reviewed by at least 20 users B0002IQNAG
-Most popular movie with highest average score, reviewed by at least 15 users B000BI1YVU
+Most popular movie with highest average score, reviewed by at least 15 users B0002IQNAG
 Most popular movie with highest average score, reviewed by at least 10 users B00004CK40
 Most popular movie with highest average score, reviewed by at least 5 users B00004CK40
 
@@ -310,7 +310,7 @@ User id = [ARKET30YZLSNL], helpfulness [1.0].
 User id = [AUDSM2CTLLW1Q], helpfulness [1.0].
 User id = [AZSN1TO0JI87B], helpfulness [1.0].
 User id = [A220FJEQNGMSRN], helpfulness [0.875].
-User id = [A3AY3EV2MFRFGG], helpfulness [0.8636363636363636].
+User id = [A3AY3EV2MFRFGG], helpfulness [0.86364].
 User id = [A1COG8T9MPP3KA], helpfulness [0.75].
 User id = [A1IF0YNKADHQD7], helpfulness [0.75].
 User id = [A1N49TOJZFG48H], helpfulness [0.75].
@@ -318,14 +318,14 @@ User id = [A2D8CUJPOSRPNA], helpfulness [0.75].
 User id = [A378B22B4X5W6I], helpfulness [0.75].
 User id = [A3KXFQQFBPJTQE], helpfulness [0.75].
 User id = [AGFO6RNCAAT09], helpfulness [0.75].
-User id = [A15Q9YEG1XPEJN], helpfulness [0.6666666666666666].
-User id = [A1MHTHU9A6OFN3], helpfulness [0.6666666666666666].
-User id = [A2E5I8DAQFC9C6], helpfulness [0.6666666666666666].
-User id = [A2UYAFQ40U2PHS], helpfulness [0.6666666666666666].
-User id = [A2ZRFZTJNYB7G2], helpfulness [0.6666666666666666].
-User id = [A3GA09FYFKL4EY], helpfulness [0.6666666666666666].
-User id = [AFOK05KDCHSHL], helpfulness [0.6666666666666666].
-User id = [AH5K3DWP6D99J], helpfulness [0.6666666666666666].
+User id = [A15Q9YEG1XPEJN], helpfulness [0.66667].
+User id = [A1MHTHU9A6OFN3], helpfulness [0.66667].
+User id = [A2E5I8DAQFC9C6], helpfulness [0.66667].
+User id = [A2UYAFQ40U2PHS], helpfulness [0.66667].
+User id = [A2ZRFZTJNYB7G2], helpfulness [0.66667].
+User id = [A3GA09FYFKL4EY], helpfulness [0.66667].
+User id = [AFOK05KDCHSHL], helpfulness [0.66667].
+User id = [AH5K3DWP6D99J], helpfulness [0.66667].
 User id = [A2DTDEJEHV5JC0], helpfulness [0.6].
 User id = [A2FL0EKQ2EQ9E6], helpfulness [0.5].
 User id = [A2QZNFIAINBPFG], helpfulness [0.5].
@@ -335,7 +335,7 @@ User id = [A3IS31UXNVQO7D], helpfulness [0.5].
 User id = [AC90Q1XLZMATQ], helpfulness [0.5].
 User id = [AWXBY8LBHH1NV], helpfulness [0.5].
 User id = [AAG1G1VAIQJIT], helpfulness [0.375].
-User id = [A2EW78RA8CPGYB], helpfulness [0.2857142857142857].
+User id = [A2EW78RA8CPGYB], helpfulness [0.28571].
 User id = [A242PI8SCCV5IY], helpfulness [0.0].
 User id = [AQSCP0IL55UJV], helpfulness [0.0].
 
