@@ -123,6 +123,7 @@ public class MoviesStorage implements IMoviesStorage {
 
     @Override
     public List<Movie> getMoviesPercentile(double percentile) {
+    	percentile /= 100.0;
     	String[] allMovieProductIds = getAllMovieProductIds();    	
     	Movie sortedMovies[] = new Movie[allMovieProductIds.length];
     	for (int i = 0 ; i < allMovieProductIds.length ; i++) {
