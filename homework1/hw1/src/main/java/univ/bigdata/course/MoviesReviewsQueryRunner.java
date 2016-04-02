@@ -21,8 +21,9 @@ public class MoviesReviewsQueryRunner {
 
         
         try{
-        	final PrintStream printer = new PrintStream(new FileOutputStream(args[1]));
-            final MoviesProvider provider = new FileIOMoviesProvider(args[0]);
+        	//assuming the files name are in the right order and exist, with normal character
+        	final PrintStream printer = new PrintStream(new FileOutputStream(args[1].split("=")[1]));
+            final MoviesProvider provider = new FileIOMoviesProvider("target/classes/"+args[0].split("=")[1]);
             final IMoviesStorage storage = new MoviesStorage(provider);
 
             printer.println("Getting list of total movies average.");
@@ -104,6 +105,8 @@ public class MoviesReviewsQueryRunner {
             printer.println();
             printer.println("Total number of distinct movies reviewed [" +storage.moviesCount() + "].");
             printer.println("THE END.");
+            //add close for clean exit
+            printer.close();
         } catch (final Exception e) {
             e.printStackTrace();
         }
