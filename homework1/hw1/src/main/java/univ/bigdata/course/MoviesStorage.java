@@ -4,7 +4,6 @@ import univ.bigdata.course.movie.Movie;
 import univ.bigdata.course.movie.MovieReview;
 import univ.bigdata.course.providers.MoviesProvider;
 
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,29 +32,16 @@ public class MoviesStorage implements IMoviesStorage {
 	private LinkedList<MovieReview> movieReviews = new LinkedList<MovieReview>();
 	private final DecimalFormat df = new DecimalFormat("#.#####");
 
-	// Old implementation - start
-	// private HashMap<String, Movie> movies = new HashMap<String, Movie>();
-	// Old imlementation - end
 
 	public MoviesStorage(final MoviesProvider provider) {
 		while (provider.hasMovie()) {
 			MovieReview mr = provider.getMovie();
 			movieReviews.add(mr);
-
-			// old implementation - start
-			// Also creating a list of Movies
-			// Movie m = mr.getMovie();
-			// Creating a map: productId --> Movie
-			// movies.put(m.getProductId(), m);
-			// old implementation = end
 		}
 	}
 
 	@Override
 	public double totalMoviesAverageScore() {
-		// Note: I guess it should be the average of all the reviews - as
-		// implemented here
-		// and not the average of all the averages of all the movies
 		double sum = 0.0;
 		for (MovieReview mr : movieReviews) {
 			sum += mr.getMovie().getScore();
@@ -109,8 +95,6 @@ public class MoviesStorage implements IMoviesStorage {
 			}
 		});
 		List<Movie> topKMovies = new LinkedList<Movie>();
-		// int totalNumMovies = sortedMovies.length;
-
 		for (int i = 0; i < topK; i++) {
 			sortedMovies[i].setScore(Double.parseDouble(df.format(sortedMovies[i].getScore())));
 			topKMovies.add(sortedMovies[i]);
@@ -151,12 +135,7 @@ public class MoviesStorage implements IMoviesStorage {
 				return ((score0 > score1) ? -1 : 1);
 			}
 		});
-		// Floor is good. Example: 10 movies, 0.35 percentile - starting from
-		// index 3
-		// Starting from index 3 means we "leave behind" 0.3 of the movies and
-		// less than 0.4 of the movies
 		int startFrom = (int) (sortedMovies.length * percentile);
-		//Movie[] outputMovies = Arrays.copyOfRange(sortedMovies, startFrom, sortedMovies.length);
 		Movie[] outputMovies = Arrays.copyOfRange(sortedMovies, 0, sortedMovies.length-startFrom);
 		
 		return Arrays.asList(outputMovies);
@@ -290,9 +269,6 @@ public class MoviesStorage implements IMoviesStorage {
 	@Override
 	public Map<String, Long> topYMoviewsReviewTopXWordsCount(int topMovies, int topWords) {
 		Map<String, Long> mostReviewedKMovies = reviewCountPerMovieTopKMovies(topMovies);
-		// If found out that it's top Y best reviewed , and not top Y most
-		// reviewed - use the below commented out list
-		// List<Movie> topYMovies = getTopKMoviesAverage(topMovies);
 		Map<String, Long> wordsCount = new HashMap<String, Long>();
 		for (MovieReview mr : movieReviews) {
 			if (!mostReviewedKMovies.containsKey(mr.getMovie().getProductId())) {
@@ -461,20 +437,15 @@ public class MoviesStorage implements IMoviesStorage {
 		}
 
 		Double[] vals = reverseMap.keySet().toArray(new Double[reverseMap.size()]);
-
 		Arrays.sort(vals, Collections.reverseOrder());
-
 		for (Double val : vals) {
-
 			LinkedList<String> keys = reverseMap.get(val);
-
 			Collections.sort(keys, new Comparator<String>() {
 				@Override
 				public int compare(String o1, String o2) {
 					return o1.compareTo(o2);
 				}
 			});
-
 			for (String key : keys) {
 				retmap.put(key, val);
 			}

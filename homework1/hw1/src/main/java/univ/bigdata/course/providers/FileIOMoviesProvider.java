@@ -4,13 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import univ.bigdata.course.MoviesStorage;
 import univ.bigdata.course.movie.Movie;
 import univ.bigdata.course.movie.MovieReview;
 
@@ -20,11 +16,6 @@ public class FileIOMoviesProvider implements MoviesProvider {
 	String nextString = null;
 	boolean endOfFile = false;
 	String inputFileName = null;
-	
-	/* Old implementation of movie scores - start*/
-	//HashMap<String, Movie> movies = new HashMap<String, Movie>();
-	//HashMap<String, Integer> movieReviewCounters = new HashMap<String, Integer>();
-	/* Old implementation of movie scores - end*/
 	
 	HashMap<String, String> fileKeysNextKey = null;
 	
@@ -71,9 +62,7 @@ public class FileIOMoviesProvider implements MoviesProvider {
 		}
 		lazyKeysMapSetter();
 		FileReader fr = null;
-		//URL fileUrl = this.getClass().getResource("/movies-sample.txt");
 		try {
-			//fr = new FileReader(fileUrl.getFile());
 			fr = new FileReader(inputFileName);
 		} catch (FileNotFoundException e) {
 			throw new Exception("File not found: " + e.getMessage());
@@ -110,17 +99,6 @@ public class FileIOMoviesProvider implements MoviesProvider {
         String summary = getFieldValueFromLine(nextString, Titles.SUMMARY);
         String reviewText = getFieldValueFromLine(nextString, Titles.TEXT);
         
-        /* Old implementation of movie scores - start*/
-      //  if (! movies.containsKey(productId)) {
-       // 	movies.put(productId, new Movie(productId, 0));
-       // 	movieReviewCounters.put(productId, 0);
-        //}
-        //Movie movieObj = movies.get(productId);
-        
-       // int lastNumReviews = movieReviewCounters.get(productId);
-       // movieObj.setScore((movieObj.getScore() * lastNumReviews + score) / (lastNumReviews + 1));
-       // movieReviewCounters.put(productId, lastNumReviews + 1);
-        /* Old implementation of movie scores - end*/
         Movie movie = new Movie();
         movie.setProductId(productId);
         movie.setScore(score);
@@ -133,89 +111,5 @@ public class FileIOMoviesProvider implements MoviesProvider {
         mr.setSummary(summary);
         
         return mr;
-    }
-    
-    public static void main(String[] args) {
-    	FileIOMoviesProvider fimp = new FileIOMoviesProvider("C:\\Users\\Omri\\git\\cs_data_hw1\\homework1\\hw1\\src\\main\\resources\\movies-sample.txt");
-    	MoviesStorage ms = new MoviesStorage(fimp);
-    	
-    	// Here starting are the sanity checks - don't make to much effort of them, it's just sanity checks
-    	
-    	System.out.println("** Sanity Check 1: **");
-    	System.out.println("total movies average score is: " + ms.totalMoviesAverageScore());
-    	
-    	System.out.println("** Sanity Check 2: **");
-    	System.out.println("total average score for movie B00004CK40 is: " + ms.totalMovieAverage("B00004CK40"));
-    	System.out.println("total average score for movie B00004CK47 is: " + ms.totalMovieAverage("B00004CK47"));
-    	System.out.println("total average score for movie B000BI1YVU is: " + ms.totalMovieAverage("B000BI1YVU"));
-    	System.out.println("total average score for movie B0002IQNAG is: " + ms.totalMovieAverage("B0002IQNAG"));
-
-    	System.out.println("** Sanity Check 3: **");
-    	System.out.println("Top 3 movies sorted by their average score and then lexicographically are:");
-    	List<Movie> topKMovies = ms.getTopKMoviesAverage(3);
-    	for (Movie m : topKMovies) {
-    		System.out.println("ProductID: " + m.getProductId() + ", Score: " + m.getScore());
-    	}
-    	
-    	System.out.println("** Sanity Check 4: **");
-    	System.out.println("Movie with highest score (or with highest productId among those with highest score):");
-    	Movie m = ms.movieWithHighestAverage();
-    	System.out.println("ProductID: " + m.getProductId() + ", Score: " + m.getScore());
-    	
-    	System.out.println("** Sanity Check 5: **");
-    	System.out.println("Movies above percentile 0.7:");
-    	List<Movie> percMovies = ms.getMoviesPercentile(0.7);
-    	for (Movie m1 : percMovies) {
-    		System.out.println("ProductID: " + m1.getProductId() + ", Score: " + m1.getScore());
-    	}    	
-    	
-    	System.out.println("** Sanity Check 6: **");
-    	String s = ms.mostReviewedProduct();
-    	System.out.println("Most reviewed product is: " + s);
-    	
-    	System.out.println("** Sanity Check 7: **");
-    	Integer tK= 4;
-    	System.out.println("Top" + tK.toString() + "per movies review: ");
-    	Map<String, Long> mapM = ms.reviewCountPerMovieTopKMovies(tK);
-    	for (Map.Entry<String, Long> entry : mapM.entrySet()) {
-    	    System.out.println("Movie product id = [" + entry.getKey() + "], reviews count [" + entry.getValue()+ "].");
-    	}
-    	System.out.println("** Sanity Check 8: **");
-    	System.out.println("mostPopularMovieReviewedByKUsers k=20 "+ms.mostPopularMovieReviewedByKUsers(20).toString());
-    	System.out.println("mostPopularMovieReviewedByKUsers k=10 "+ms.mostPopularMovieReviewedByKUsers(10).toString());
-    	
-    	System.out.println("** Sanity Check 9: **");
-    	Integer topK= 3;
-    	System.out.println("Top" + topK.toString() + "movies reviews words count: ");
-    	Map<String, Long> map = ms.moviesReviewWordsCount(topK);
-    	for (Map.Entry<String, Long> entry : map.entrySet()) {
-    	    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-    	}
-    	
-    	System.out.println("** Sanity Check 10: **");
-    	System.out.println("Top 10 words in top 2 movies reviews words count: ");
-    	Map<String, Long> topWordsTopMoviesMap = ms.topYMoviewsReviewTopXWordsCount(2, 200);
-    	for (String word : topWordsTopMoviesMap.keySet()) {
-    	    System.out.println("Key = " + word + ", Value = " + topWordsTopMoviesMap.get(word));
-    	}
-    	
-    	System.out.println("** Sanity Check 11: **");
-    	System.out.println("topKHelpfullUsers k=10"+ms.topKHelpfullUsers(10).toString());
-    	System.out.println("****");
-    	System.out.println("topKHelpfullUsers k=78"+ms.topKHelpfullUsers(78).toString());
-    	System.out.println("****");
-    	System.out.println("topKHelpfullUsers k=100"+ms.topKHelpfullUsers(100).toString());
-    	
-    	System.out.println("** Sanity Check 12: **");
-    	long C=ms.moviesCount();
-    	System.out.println("Total number of distinct movies reviewed ["+C+"].");
-    	
-    	
-    	// Please continue below with the next sanity checks for the methods you implement
-    	// Please keep the sanity check number according to the function index in the class
-    	// I.e. sanity checks 1-4 are corresponding to methods 1-4 respectively
-
-    	
-  
     }
 }
